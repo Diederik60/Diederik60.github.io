@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diederik Dekker — AI Consultant</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy: #0f1f2e;
+    --navy-mid: #1a3347;
+    --cream: #f5f0e8;
+    --cream-dark: #ece6d8;
+    --accent: #c8a96e;
+    --accent-light: #e8d5a8;
+    --text: #0f1f2e;
+    --text-muted: #4a6070;
+    --serif: 'DM Serif Display', Georgia, serif;
+    --sans: 'DM Sans', sans-serif;
+    --mono: 'DM Mono', monospace;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--sans);
+    background: var(--cream);
+    color: var(--text);
+    font-size: 16px;
+    line-height: 1.6;
+    font-weight: 300;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.25rem 4rem;
+    background: rgba(245, 240, 232, 0.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(15,31,46,0.08);
+  }
+
+  .nav-logo {
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    color: var(--navy);
+    text-decoration: none;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--text-muted);
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--navy); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding-top: 80px;
+  }
+
+  .hero-left {
+    padding: 8rem 4rem 6rem 4rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .hero-tag {
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+  }
+
+  .hero-title {
+    font-family: var(--serif);
+    font-size: clamp(3rem, 5vw, 4.5rem);
+    line-height: 1.05;
+    color: var(--navy);
+    margin-bottom: 2rem;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .hero-subtitle {
+    font-size: 17px;
+    font-weight: 300;
+    color: var(--text-muted);
+    max-width: 420px;
+    line-height: 1.7;
+    margin-bottom: 3rem;
+  }
+
+  .hero-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: var(--navy);
+    color: var(--cream);
+    padding: 0.9rem 2rem;
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    transition: background 0.2s, gap 0.2s;
+    width: fit-content;
+  }
+
+  .hero-cta:hover {
+    background: var(--navy-mid);
+    gap: 1.1rem;
+  }
+
+  .hero-cta-arrow { font-size: 16px; transition: transform 0.2s; }
+  .hero-cta:hover .hero-cta-arrow { transform: translateX(3px); }
+
+  .hero-right {
+    background: var(--navy);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-right::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 300px; height: 300px;
+    border: 1px solid rgba(200, 169, 110, 0.15);
+    border-radius: 50%;
+  }
+
+  .hero-right::after {
+    content: '';
+    position: absolute;
+    top: 40px; right: 40px;
+    width: 180px; height: 180px;
+    border: 1px solid rgba(200, 169, 110, 0.1);
+    border-radius: 50%;
+  }
+
+  .hero-orgs-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(200,169,110,0.6);
+    margin-bottom: 1.5rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero-orgs {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin-bottom: 3rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero-org {
+    background: rgba(255,255,255,0.04);
+    padding: 1rem 1.25rem;
+    font-size: 14px;
+    font-weight: 300;
+    color: rgba(245,240,232,0.8);
+    border-left: 2px solid transparent;
+    transition: border-color 0.2s, background 0.2s, color 0.2s;
+  }
+
+  .hero-org:hover {
+    border-left-color: var(--accent);
+    background: rgba(255,255,255,0.07);
+    color: var(--cream);
+  }
+
+  .hero-quote {
+    position: relative;
+    z-index: 1;
+    border-left: 2px solid var(--accent);
+    padding-left: 1.5rem;
+  }
+
+  .hero-quote p {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 1.1rem;
+    color: rgba(245, 240, 232, 0.85);
+    line-height: 1.6;
+  }
+
+  /* SECTION SHARED */
+  section { padding: 7rem 4rem; }
+
+  .section-tag {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1rem;
+  }
+
+  .section-title {
+    font-family: var(--serif);
+    font-size: clamp(2rem, 3.5vw, 2.8rem);
+    color: var(--navy);
+    line-height: 1.15;
+    margin-bottom: 3rem;
+    max-width: 600px;
+  }
+
+  /* SERVICES */
+  #services { background: var(--cream); }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+  }
+
+  .service-card {
+    background: white;
+    padding: 2.5rem;
+    transition: background 0.2s;
+  }
+
+  .service-card:hover { background: var(--navy); }
+  .service-card:hover .service-title { color: var(--cream); }
+  .service-card:hover .service-desc { color: rgba(245,240,232,0.6); }
+  .service-card:hover .service-number { color: var(--accent); }
+
+  .service-number {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    margin-bottom: 1.5rem;
+    transition: color 0.2s;
+  }
+
+  .service-title {
+    font-family: var(--serif);
+    font-size: 1.35rem;
+    color: var(--navy);
+    margin-bottom: 1rem;
+    transition: color 0.2s;
+  }
+
+  .service-desc {
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.7;
+    font-weight: 300;
+    transition: color 0.2s;
+  }
+
+  /* WORK */
+  #work { background: var(--navy); }
+  #work .section-title { color: var(--cream); }
+  #work .section-tag { color: var(--accent); }
+
+  .work-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+  }
+
+  .work-item {
+    background: rgba(255,255,255,0.04);
+    padding: 2.5rem;
+    border-left: 2px solid transparent;
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .work-item:hover {
+    border-left-color: var(--accent);
+    background: rgba(255,255,255,0.07);
+  }
+
+  .work-client {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    margin-bottom: 0.75rem;
+  }
+
+  .work-title {
+    font-family: var(--serif);
+    font-size: 1.2rem;
+    color: var(--cream);
+    margin-bottom: 0.75rem;
+  }
+
+  .work-desc {
+    font-size: 13px;
+    color: rgba(245,240,232,0.5);
+    line-height: 1.7;
+    font-weight: 300;
+  }
+
+  .work-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 1.25rem;
+  }
+
+  .work-tag {
+    font-family: var(--mono);
+    font-size: 10px;
+    padding: 3px 10px;
+    border: 1px solid rgba(200,169,110,0.3);
+    color: rgba(200,169,110,0.7);
+    letter-spacing: 0.06em;
+  }
+
+  /* ABOUT */
+  #about {
+    background: var(--cream-dark);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: center;
+  }
+
+  .about-text p {
+    font-size: 15px;
+    color: var(--text-muted);
+    margin-bottom: 1.25rem;
+    line-height: 1.8;
+    font-weight: 300;
+  }
+
+  .about-credentials {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .credential {
+    background: white;
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .credential-name {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--navy);
+  }
+
+  .credential-detail {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 0.04em;
+  }
+
+  /* CONTACT */
+  #contact {
+    background: var(--cream);
+    text-align: center;
+    padding: 8rem 4rem;
+  }
+
+  #contact .section-title {
+    max-width: none;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .contact-subtitle {
+    font-size: 16px;
+    color: var(--text-muted);
+    margin-bottom: 3rem;
+    font-weight: 300;
+  }
+
+  .contact-email {
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 1.5rem;
+    color: var(--navy);
+    text-decoration: none;
+    border-bottom: 1px solid var(--accent);
+    padding-bottom: 0.25rem;
+    transition: color 0.2s;
+  }
+
+  .contact-email:hover { color: var(--accent); }
+
+  .contact-links {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    margin-top: 3rem;
+  }
+
+  .contact-link {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .contact-link:hover { color: var(--navy); }
+
+  /* FOOTER */
+  footer {
+    background: var(--navy);
+    padding: 2rem 4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  footer p {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: rgba(245,240,232,0.35);
+    letter-spacing: 0.06em;
+  }
+
+  /* ANIMATIONS */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeIn 0.8s ease forwards;
+  }
+
+  @keyframes fadeIn {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .delay-1 { animation-delay: 0.1s; }
+  .delay-2 { animation-delay: 0.25s; }
+  .delay-3 { animation-delay: 0.4s; }
+  .delay-4 { animation-delay: 0.55s; }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    nav { padding: 1.25rem 2rem; }
+    .nav-links { display: none; }
+    .hero { grid-template-columns: 1fr; }
+    .hero-left { padding: 6rem 2rem 3rem; }
+    .hero-right { padding: 3rem 2rem; min-height: 360px; }
+    section { padding: 5rem 2rem; }
+    .services-grid { grid-template-columns: 1fr; }
+    .work-grid { grid-template-columns: 1fr; }
+    #about { grid-template-columns: 1fr; gap: 3rem; padding: 5rem 2rem; }
+    footer { padding: 1.5rem 2rem; flex-direction: column; gap: 0.5rem; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="#">DD — AI</a>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#work">Work</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-left">
+    <p class="hero-tag fade-in">AI Consultant & Engineer</p>
+    <h1 class="hero-title fade-in delay-1">
+      Building <em>intelligent</em><br>systems that work
+    </h1>
+    <p class="hero-subtitle fade-in delay-2">
+      I prefer real problems over demos. For startups, SMEs, or organisations that want smart technology without hiring an expensive agency.
+    </p>
+    <a href="#contact" class="hero-cta fade-in delay-3">
+      Get in touch <span class="hero-cta-arrow">→</span>
+    </a>
+  </div>
+
+  <div class="hero-right fade-in delay-2">
+    <div class="hero-orgs-label">Organisations I have worked with</div>
+    <div class="hero-orgs">
+      <div class="hero-org">Ministry of Defence</div>
+      <div class="hero-org">Ministry of Health, Welfare &amp; Sport</div>
+      <div class="hero-org">Ministry of General Affairs</div>
+      <div class="hero-org">CigarBox</div>
+      <div class="hero-org">Rebel &amp; Rose</div>
+      <div class="hero-org">Packhunt</div>
+    </div>
+    <div class="hero-quote">
+      <p>I focus on results, not on impressive engineering. If it works and solves the problem, that is enough.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <p class="section-tag">What I do</p>
+  <h2 class="section-title">From raw data to working AI</h2>
+  <div class="services-grid">
+    <div class="service-card">
+      <p class="service-number">01</p>
+      <h3 class="service-title">AI Integration</h3>
+      <p class="service-desc">LLM-powered tools embedded in your existing workflow. RAG systems, document intelligence, natural language interfaces for non-technical teams.</p>
+    </div>
+    <div class="service-card">
+      <p class="service-number">02</p>
+      <h3 class="service-title">Data Engineering</h3>
+      <p class="service-desc">Pipelines that turn scattered data sources into clean, queryable intelligence. BigQuery, PySpark, medallion architecture.</p>
+    </div>
+    <div class="service-card">
+      <p class="service-number">03</p>
+      <h3 class="service-title">ML & Analysis</h3>
+      <p class="service-desc">Predictive models, pattern recognition, and automated reporting. Built to be understood and maintained, not just to run.</p>
+    </div>
+  </div>
+</section>
+
+<!-- WORK -->
+<section id="work">
+  <p class="section-tag">Selected work</p>
+  <h2 class="section-title">Completed work</h2>
+  <div class="work-grid">
+    <div class="work-item">
+      <p class="work-client">Ministry of Defence</p>
+      <h3 class="work-title">Explainable RAG for Wargames</h3>
+      <p class="work-desc">AI retrieval system with explainability layer for wargame decision support. Built for operators who need to trust and understand AI output.</p>
+      <div class="work-tags">
+        <span class="work-tag">RAG</span>
+        <span class="work-tag">Python</span>
+        <span class="work-tag">Explainable AI</span>
+      </div>
+    </div>
+    <div class="work-item">
+      <p class="work-client">Ministry of Health, Welfare & Sport</p>
+      <h3 class="work-title">WOO Document Search</h3>
+      <p class="work-desc">AI-driven search across large volumes of government documents, improving retrieval accuracy for public information requests.</p>
+      <div class="work-tags">
+        <span class="work-tag">NLP</span>
+        <span class="work-tag">Search</span>
+        <span class="work-tag">Python</span>
+      </div>
+    </div>
+    <div class="work-item">
+      <p class="work-client">CigarBox</p>
+      <h3 class="work-title">AI Survey Analysis Tool</h3>
+      <p class="work-desc">Multi-LLM system letting non-technical users query survey data in plain language. 75-85% reduction in API payload through intelligent compression.</p>
+      <div class="work-tags">
+        <span class="work-tag">GPT-4</span>
+        <span class="work-tag">Gemini</span>
+        <span class="work-tag">Flask</span>
+      </div>
+    </div>
+    <div class="work-item">
+      <p class="work-client">Rebel & Rose</p>
+      <h3 class="work-title">Data Pipeline & Analytics</h3>
+      <p class="work-desc">End-to-end data engineering for a jewelry brand with 600K+ customers and 800+ retail partners across 15 countries.</p>
+      <div class="work-tags">
+        <span class="work-tag">BigQuery</span>
+        <span class="work-tag">PySpark</span>
+        <span class="work-tag">Fabric</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-text">
+    <p class="section-tag">Background</p>
+    <h2 class="section-title">Built different</h2>
+    <p>I have a background in AI, data science and software development, and I am currently studying at TU Delft. I work with Python, machine learning, data engineering, and applied AI.</p>
+    <p>I have worked with Dutch government ministries, cultural organisations, and international companies. I am comfortable in a boardroom and in a terminal.</p>
+    <p>Available for projects in Amsterdam, Delft, and remotely across Europe.</p>
+  </div>
+  <div class="about-credentials">
+    <div class="credential">
+      <span class="credential-name">MSc Applied Physics</span>
+      <span class="credential-detail">TU Delft — 2025</span>
+    </div>
+    <div class="credential">
+      <span class="credential-name">BSc Applied Physics</span>
+      <span class="credential-detail">TU Delft — 9.0 thesis</span>
+    </div>
+    <div class="credential">
+      <span class="credential-name">Minor AI & Data Science</span>
+      <span class="credential-detail">Universidade do Porto</span>
+    </div>
+    <div class="credential">
+      <span class="credential-name">Team Epoch</span>
+      <span class="credential-detail">Project & Finance Manager</span>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <p class="section-tag">Let's talk</p>
+  <h2 class="section-title">Have a problem worth solving?</h2>
+  <p class="contact-subtitle">I take on a small number of projects at a time. Reach out directly.</p>
+  <a class="contact-email" href="/cdn-cgi/l/email-protection#b2d6d8c5d6d7d9d9d7c0f2d5dfd3dbde9cd1dddf">
+    <span class="__cf_email__" data-cfemail="76121c0112131d1d130436111b171f1a5815191b">[email&#160;protected]</span>
+  </a>
+  <div class="contact-links">
+    <a class="contact-link" href="https://linkedin.com/in/diederik-dekker-" target="_blank">LinkedIn</a>
+    <a class="contact-
